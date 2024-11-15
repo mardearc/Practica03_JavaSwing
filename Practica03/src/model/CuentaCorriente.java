@@ -10,7 +10,7 @@ public class CuentaCorriente extends Cuenta{
 	
 	
 	public CuentaCorriente(int numero, String titular, double saldo, double saldoMinimo,
-			GregorianCalendar fechaApertura, double comision, String tipoComision) throws SaldoNoValidoException {
+			GregorianCalendar fechaApertura, double comision, String tipoComision) throws SaldoNoValidoException, NumeroNoValidoException {
 		super(numero, titular, saldo, saldoMinimo, fechaApertura);
 		setComision(comision);
 		setTipoComision(tipoComision);
