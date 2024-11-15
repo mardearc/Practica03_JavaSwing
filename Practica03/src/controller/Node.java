@@ -17,7 +17,7 @@ public class Node<E> {
 		this.siguiente = siguiente;
 	}
 
-	public E getPricipal() {
+	public E getPrincipal() {
 		return principal;
 	}
 
