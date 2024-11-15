@@ -14,8 +14,13 @@ public class Principal {
         Lista<Cuenta> cuentas = new Lista<>();
 
         // Crear cuentas y añadirlas a la lista
-    	cuentas.insertarNodo(new CuentaCorriente(1, "Juan Pérez", 100, 1000, new GregorianCalendar(2023, 1, 15), 5, "Mensual"));
-        cuentas.insertarNodo(new CuentaAhorro(2, "Ana Gómez", 2000, 200, new GregorianCalendar(2022, 5, 20), 3.5, 50));
+        try {
+        	cuentas.insertarNodo(new CuentaCorriente(1, "Juan Pérez", 100, 1000, new GregorianCalendar(2023, 1, 15), 5, "Mensual"));
+            cuentas.insertarNodo(new CuentaAhorro(2, "Ana Gómez", 2000, 200, new GregorianCalendar(2022, 5, 20), 3.5, 50));
+        }catch(SaldoNoValidoException e) {
+        	System.out.println(e.getMessage());
+        }
+    	
         
         
 

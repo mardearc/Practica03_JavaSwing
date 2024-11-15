@@ -11,16 +11,11 @@ public class Cuenta implements Serializable{
 	private double saldoMinimo;
 	private GregorianCalendar fechaApertura;
 
-	public Cuenta(int numero, String titular,  double saldoMinimo, double saldo, GregorianCalendar fechaApertura) {
+	public Cuenta(int numero, String titular,  double saldoMinimo, double saldo, GregorianCalendar fechaApertura) throws SaldoNoValidoException {
 		setNumero(numero);
 		setTitular(titular);
 		setSaldoMinimo(saldoMinimo);
-		try {
-			setSaldo(saldo);
-		} catch (SaldoNoValidoException e) {
-			System.out.println(e.getMessage());
-		}
-		
+		setSaldo(saldo);
 		setFechaApertura(fechaApertura);
 	}
 
