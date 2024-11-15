@@ -69,4 +69,12 @@ public class Cuenta implements Serializable{
 		this.fechaApertura = fechaApertura;
 	}
 
+	@Override
+	public String toString() {
+		return "Cuenta [numero=" + numero + ", saldo=" + saldo + ", saldoMinimo=" + saldoMinimo + ", fechaApertura="
+				+ fechaApertura.getTime();
+	}
+	
+	
+
 }

@@ -1,28 +1,31 @@
 package controller;
 
-public class Node<E> {
-	private Node<E> siguiente;
-	E principal;
+import java.io.Serializable;
 
-	public Node(E p) {
-		this.siguiente = null;
-		this.principal = p;
-	}
+public class Node<E> implements Serializable {
 
-	public Node<E> getSiguiente() {
-		return this.siguiente;
-	}
 
-	public void setSiguiente(Node<E> siguiente) {
-		this.siguiente = siguiente;
-	}
+    private Node<E> siguiente;
+    private E principal;
 
-	public E getPrincipal() {
-		return principal;
-	}
+    public Node(E p) {
+        this.siguiente = null;
+        this.principal = p;
+    }
 
-	public void setPrincipal(E p) {
-		this.principal = p;
-	}
+    public Node<E> getSiguiente() {
+        return this.siguiente;
+    }
 
+    public void setSiguiente(Node<E> siguiente) {
+        this.siguiente = siguiente;
+    }
+
+    public E getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(E p) {
+        this.principal = p;
+    }
 }

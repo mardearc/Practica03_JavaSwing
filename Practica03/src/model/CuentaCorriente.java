@@ -28,5 +28,11 @@ public class CuentaCorriente extends Cuenta{
 		this.tipoComision = tipoComision;
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString() + " ,comision=" + comision + ", tipoComision=" + tipoComision + "]";
+	}
+	
+	
 	
 }

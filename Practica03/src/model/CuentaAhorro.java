@@ -28,5 +28,11 @@ public class CuentaAhorro extends Cuenta{
 		this.rentabilidad = rentabilidad;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "CuentaAhorro [interesAnual=" + interesAnual + ", rentabilidad=" + rentabilidad + "]";
+	}
+
+	
 	
 }
