@@ -40,17 +40,7 @@ public class Cuenta implements Serializable {
 		this.titular = titular;
 	}
 
-	public double getSaldo() {
-		return saldo;
-	}
 
-	public void setSaldo(double saldo) {
-		if (saldo >= saldoMinimo) {
-			this.saldo = saldo;
-		} else {
-			// throwException
-		}
-	}
 
 	public double getSaldoMinimo() {
 		return saldoMinimo;
