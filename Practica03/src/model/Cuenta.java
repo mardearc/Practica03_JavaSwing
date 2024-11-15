@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Cuenta implements Serializable{
+public class Cuenta implements Serializable {
 
 	private int numero;
 	private transient String titular;
@@ -30,7 +30,6 @@ public class Cuenta implements Serializable{
 		} else {
 			// throwException
 		}
-
 	}
 
 	public String getTitular() {
@@ -48,8 +47,8 @@ public class Cuenta implements Serializable{
 	public void setSaldo(double saldo) {
 		if (saldo >= saldoMinimo) {
 			this.saldo = saldo;
-		}else {
-			//throwException
+		} else {
+			// throwException
 		}
 	}
 
@@ -74,7 +73,5 @@ public class Cuenta implements Serializable{
 		return "Cuenta [numero=" + numero + ", saldo=" + saldo + ", saldoMinimo=" + saldoMinimo + ", fechaApertura="
 				+ fechaApertura.getTime();
 	}
-	
-	
 
 }
