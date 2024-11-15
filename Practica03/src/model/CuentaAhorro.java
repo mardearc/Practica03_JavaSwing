@@ -8,9 +8,9 @@ public class CuentaAhorro extends Cuenta{
 	private double rentabilidad;
 	
 	
-	public CuentaAhorro(int numero, String titular, double saldo, double saldoMinimo, GregorianCalendar fechaApertura,
+	public CuentaAhorro(int numero, String titular, double saldoMinimo, double saldo, GregorianCalendar fechaApertura,
 			double interesAnual, double rentabilidad) throws SaldoNoValidoException, NumeroNoValidoException {
-		super(numero, titular, saldo, saldoMinimo, fechaApertura);
+		super(numero, titular, saldoMinimo, saldo, fechaApertura);
 		setInteresAnual(interesAnual);
 		setRentabilidad(rentabilidad);
 	}

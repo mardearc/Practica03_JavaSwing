@@ -11,25 +11,23 @@ public class Cuenta implements Serializable {
 	private double saldoMinimo;
 	private GregorianCalendar fechaApertura;
 
-	public Cuenta(int numero, String titular,  double saldoMinimo, double saldo, GregorianCalendar fechaApertura) throws SaldoNoValidoException, NumeroNoValidoException {
+	public Cuenta(int numero, String titular, double saldoMinimo,  double saldo, GregorianCalendar fechaApertura) throws SaldoNoValidoException, NumeroNoValidoException {
 		setNumero(numero);
 		setTitular(titular);
-		setSaldo(saldo);
 		setSaldoMinimo(saldoMinimo);
+		setSaldo(saldo);
 		setFechaApertura(fechaApertura);
 	}
 
 	public int getNumero() {
-
 		return numero;
 	}
 
 	public void setNumero(int numero) throws NumeroNoValidoException {
-		if (numero >= 1 && numero <= 1000) {
-			this.numero = numero;
-		} else {
+		if (numero < 1 || numero > 1000) {
 			throw new NumeroNoValidoException();
 		}
+		this.numero = numero;
 	}
 
 	public String getTitular() {
@@ -53,11 +51,11 @@ public class Cuenta implements Serializable {
 	}
 
 	public void setSaldo(double saldo) throws SaldoNoValidoException {
-		if(saldo > saldoMinimo) {
-			this.saldo = saldo;
-		}else {
-			throw new SaldoNoValidoException();
+		if(saldo < saldoMinimo) {
+			throw new SaldoNoValidoException("El saldo no puede ser inferior al minimo");
 		}
+		this.saldo = saldo;
+		
 		
 	}
 
@@ -71,7 +69,7 @@ public class Cuenta implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cuenta [numero=" + numero + ", saldo=" + saldo + ", saldoMinimo=" + saldoMinimo + ", fechaApertura="
+		return "Cuenta [numero=" + numero + ", saldoMinimo=" + saldoMinimo + ", saldo=" + saldo + ", fechaApertura="
 				+ fechaApertura.getTime();
 	}
 

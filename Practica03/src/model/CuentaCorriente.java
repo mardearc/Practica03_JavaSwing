@@ -9,9 +9,9 @@ public class CuentaCorriente extends Cuenta{
 	
 	
 	
-	public CuentaCorriente(int numero, String titular, double saldo, double saldoMinimo,
+	public CuentaCorriente(int numero, String titular, double saldoMinimo, double saldo, 
 			GregorianCalendar fechaApertura, double comision, String tipoComision) throws SaldoNoValidoException, NumeroNoValidoException {
-		super(numero, titular, saldo, saldoMinimo, fechaApertura);
+		super(numero, titular, saldoMinimo, saldo, fechaApertura);
 		setComision(comision);
 		setTipoComision(tipoComision);
 	}
