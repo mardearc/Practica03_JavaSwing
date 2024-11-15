@@ -6,6 +6,7 @@ import controller.Lista;
 import model.Cuenta;
 import model.CuentaAhorro;
 import model.CuentaCorriente;
+import model.NumeroNoValidoException;
 import model.SaldoNoValidoException;
 
 public class Principal {
@@ -19,6 +20,8 @@ public class Principal {
             cuentas.insertarNodo(new CuentaAhorro(2, "Ana Gómez", 2000, 200, new GregorianCalendar(2022, 5, 20), 3.5, 50));
         }catch(SaldoNoValidoException e) {
         	System.out.println(e.getMessage());
+        }catch(NumeroNoValidoException t) {
+        	System.out.println(t.getMessage());
         }
     	
         

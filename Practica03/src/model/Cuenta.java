@@ -11,7 +11,7 @@ public class Cuenta implements Serializable {
 	private double saldoMinimo;
 	private GregorianCalendar fechaApertura;
 
-	public Cuenta(int numero, String titular,  double saldoMinimo, double saldo, GregorianCalendar fechaApertura) throws SaldoNoValidoException {
+	public Cuenta(int numero, String titular,  double saldoMinimo, double saldo, GregorianCalendar fechaApertura) throws SaldoNoValidoException, NumeroNoValidoException {
 		setNumero(numero);
 		setTitular(titular);
 		setSaldo(saldo);
@@ -24,11 +24,11 @@ public class Cuenta implements Serializable {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(int numero) throws NumeroNoValidoException {
 		if (numero >= 1 && numero <= 1000) {
 			this.numero = numero;
 		} else {
-			// throwException
+			throw new NumeroNoValidoException();
 		}
 	}
 
