@@ -18,7 +18,7 @@ public class Lista<E> {
 	
 	public void insertarNodo(E p) {
 		Node<E> nuevoNodo = new Node(p);
-		nuevoNodo.setSiguiente(this.inicio);
+		nuevoNodo.setSiguiente(this.inicio);awa
 		this.inicio = nuevoNodo;
 	}
 }
