@@ -23,11 +23,12 @@ public class FrmPrincipal extends JFrame {
     // Creación de Paneles
     private JPanel panPrincipal;
     private PanLista panLista;
+    private PanInsertar panInsertar;
     
     // Menú
     private JMenuBar menuBar;
     private JMenu mnuOpciones;
-    private JMenuItem menuItemCargar, menuItemVerLista, menuItemGuardar, menuItemVaciar, menuItemTest;
+    private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, menuItemGuardar, menuItemVaciar, menuItemTest;
 
     // Lista de Cuentas
     private Lista<Cuenta> cuentas = new Lista<>();
@@ -57,8 +58,10 @@ public class FrmPrincipal extends JFrame {
 
         // Inicialización de Paneles
         panLista = new PanLista();
+        panInsertar = new PanInsertar(cuentas);
+        
         panPrincipal.add(panLista, "panLista");
-
+        panPrincipal.add(panInsertar, "panInsertar");
         // Configuración del Menú
         addMenu();
         addListeners();
@@ -71,8 +74,8 @@ public class FrmPrincipal extends JFrame {
         menuItemVerLista = new JMenuItem("Ver Lista");
         menuBar.add(menuItemVerLista);
         
-        menuItemVerLista = new JMenuItem("Insertar");
-        menuBar.add(menuItemVerLista);
+        menuItemInsertar = new JMenuItem("Insertar");
+        menuBar.add(menuItemInsertar);
 
         mnuOpciones = new JMenu("Opciones");
         menuBar.add(mnuOpciones);
@@ -91,19 +94,27 @@ public class FrmPrincipal extends JFrame {
     }
 
     private void addListeners() {
+    	// Listener para "Ver Lista"
+        menuItemVerLista.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout) (panPrincipal.getLayout());
+                cl.show(panPrincipal, "panLista");
+            }
+        });
+    	
+     // Listener para "Insertar"
+        menuItemInsertar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout) (panPrincipal.getLayout());
+                cl.show(panPrincipal, "panInsertar");
+            }
+        });
+    	
         // Listener para "Cargar"
         menuItemCargar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cuentas = ctrlCuenta.leerFichero(); // Leer el fichero
                 panLista.actualizarLista(cuentas); // Actualizar el panel con los nuevos datos
-            }
-        });
-
-        // Listener para "Ver Lista"
-        menuItemVerLista.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cl = (CardLayout) (panPrincipal.getLayout());
-                cl.show(panPrincipal, "panLista");
             }
         });
         
