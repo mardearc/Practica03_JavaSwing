@@ -27,7 +27,7 @@ public class FrmPrincipal extends JFrame {
     // Menú
     private JMenuBar menuBar;
     private JMenu mnuOpciones;
-    private JMenuItem menuItemCargar, menuItemVerLista;
+    private JMenuItem menuItemCargar, menuItemVerLista, menuItemGuardar, menuItemVaciar, menuItemTest;
 
     // Lista de Cuentas
     private Lista<Cuenta> cuentas = new Lista<>();
@@ -79,6 +79,15 @@ public class FrmPrincipal extends JFrame {
 
         menuItemCargar = new JMenuItem("Cargar");
         mnuOpciones.add(menuItemCargar);
+        
+        menuItemGuardar = new JMenuItem("Guardar");
+        mnuOpciones.add(menuItemGuardar);
+        
+        menuItemVaciar = new JMenuItem("Vaciar");
+        mnuOpciones.add(menuItemVaciar);
+        
+        menuItemTest = new JMenuItem("Test");
+        mnuOpciones.add(menuItemTest);
     }
 
     private void addListeners() {
@@ -95,6 +104,21 @@ public class FrmPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) (panPrincipal.getLayout());
                 cl.show(panPrincipal, "panLista");
+            }
+        });
+        
+        // Listener para "Guardar"
+        menuItemGuardar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ctrlCuenta.escribirFichero(cuentas); // Leer el fichero
+            }
+        });
+        
+     // Listener para "Guardar"
+        menuItemVaciar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	cuentas = new Lista<Cuenta>(); // Leer el fichero
+                panLista.actualizarLista(cuentas); // Actualizar el panel con los nuevos datos
             }
         });
     }
