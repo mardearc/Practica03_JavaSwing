@@ -52,7 +52,7 @@ public class Cuenta implements Serializable {
 
 	public void setSaldo(double saldo) throws SaldoNoValidoException {
 		if(saldo < saldoMinimo) {
-			throw new SaldoNoValidoException("El saldo no puede ser inferior al minimo");
+			throw new SaldoNoValidoException();
 		}
 		this.saldo = saldo;
 		
