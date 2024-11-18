@@ -14,27 +14,18 @@ public class PanLista extends JPanel {
 
     private static final long serialVersionUID = 1L;
     
-    // CREACIÓN DEL JLIST
     private JList<Cuenta> list;
+    private DefaultListModel<Cuenta> modelo;
 
     /**
      * Crear el panel.
      */
-    public PanLista(Lista<Cuenta> cuentas) {
+    public PanLista() {
         // Establecer el layout
         setLayout(null);
 
-        // Inicializar el modelo de lista
-        DefaultListModel<Cuenta> modelo = new DefaultListModel<>();
-        Node<Cuenta> actual = cuentas.getInicio();
-
-        // Rellenar el modelo con los datos de la lista enlazada
-        while (actual != null) {
-            modelo.addElement(actual.getPrincipal());
-            actual = actual.getSiguiente();
-        }
-
-        // Crear e inicializar el JList
+        // Inicializar el modelo y el JList
+        modelo = new DefaultListModel<>();
         list = new JList<>(modelo);
         list.setBounds(10, 10, 280, 200);
 
@@ -42,5 +33,19 @@ public class PanLista extends JPanel {
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setBounds(10, 10, 280, 200);
         add(scrollPane);
+    }
+
+    /**
+     * Método para actualizar los datos en el JList.
+     */
+    public void actualizarLista(Lista<Cuenta> cuentas) {
+        modelo.clear(); // Limpiar el modelo actual
+        Node<Cuenta> actual = cuentas.getInicio();
+
+        // Añadir los elementos de la lista al modelo
+        while (actual != null) {
+            modelo.addElement(actual.getPrincipal());
+            actual = actual.getSiguiente();
+        }
     }
 }
