@@ -3,6 +3,7 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import controller.CtrlCuenta;
 import controller.Lista;
 import controller.Node;
 import model.Cuenta;
@@ -16,6 +17,8 @@ public class PanLista extends JPanel {
     
     private JList<Cuenta> list;
     private DefaultListModel<Cuenta> modelo;
+    
+    CtrlCuenta ctrlCuenta = CtrlCuenta.GetControlador();
 
     /**
      * Crear el panel.
@@ -24,7 +27,11 @@ public class PanLista extends JPanel {
         // Establecer el layout
         setLayout(null);
 
-        // Inicializar el modelo y el JList
+        addComponents();
+    }
+
+	private void addComponents() {
+		// Inicializar el modelo y el JList
         modelo = new DefaultListModel<>();
         list = new JList<>(modelo);
         list.setBounds(10, 10, 280, 200);
@@ -33,7 +40,7 @@ public class PanLista extends JPanel {
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setBounds(10, 10, 280, 200);
         add(scrollPane);
-    }
+	}
 
     /**
      * Método para actualizar los datos en el JList.

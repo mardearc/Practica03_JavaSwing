@@ -45,7 +45,7 @@ public class FrmPrincipal extends JFrame {
         // Configuración del Frame Principal
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 508, 323);
-        setTitle("Practica 2 - Ema, Recacha y Jesus");
+        setTitle("Practica 3 - Jesús al cuadrado");
         setResizable(false);
         setLocationRelativeTo(null);
 
