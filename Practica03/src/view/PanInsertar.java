@@ -36,9 +36,14 @@ public class PanInsertar extends JPanel {
 	//Conbtrolador
 	CtrlCuenta ctrlCuenta = CtrlCuenta.GetControlador();
 	
-	public PanInsertar(Lista<Cuenta> listaCuentas) {
+	//Panel Lista
+	PanLista panLista;
+	
+	public PanInsertar(Lista<Cuenta> listaCuentas, PanLista panelLista) {
 		
 		cuentas = listaCuentas;
+		panLista = panelLista;
+		
 		setLayout(null);
 
 		addComponents();
@@ -186,18 +191,30 @@ public class PanInsertar extends JPanel {
 			if (rbtnCorriente.isSelected()) {
 				double comision = Double.parseDouble(txtComision.getText());
 				String tipoComision = txtTipoComision.getText();
-				cuentas.insertarNodo(new CuentaCorriente(numero, titular, saldoMinimo, saldo, fechaApertura, comision,
+				
+				//Actualizar la lista estática de cuentas
+				FrmPrincipal.cuentas.insertarNodo(new CuentaCorriente(numero, titular, saldoMinimo, saldo, fechaApertura, comision,
 						tipoComision));
+				JOptionPane.showMessageDialog(this, "Cuenta insertada correctamente.");
+				
+				//Actualizar la lista del panelLista
+				panLista.actualizarLista(FrmPrincipal.cuentas);
+				limpiarCampos();
 			} else if (rbtnAhorro.isSelected()) {
 				double interesAnual = Double.parseDouble(txtInteresAnual.getText());
 				double rentabilidad = Double.parseDouble(txtRentabilidad.getText());
-				cuentas.insertarNodo(new CuentaAhorro(numero, titular, saldoMinimo, saldo, fechaApertura, interesAnual,
+				
+				//Actualizar la lista estática de cuentas
+				FrmPrincipal.cuentas.insertarNodo(new CuentaAhorro(numero, titular, saldoMinimo, saldo, fechaApertura, interesAnual,
 						rentabilidad));
+				JOptionPane.showMessageDialog(this, "Cuenta insertada correctamente.");
+				
+				//Actualizar la lista del panelLista
+				panLista.actualizarLista(FrmPrincipal.cuentas);
+				limpiarCampos();
+			} else {
+				JOptionPane.showMessageDialog(this, "Debe elegir un tipo de cuenta.");
 			}
-			
-			JOptionPane.showMessageDialog(this, "Cuenta insertada correctamente.");
-			limpiarCampos();
-
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al insertar la cuenta: " + ex.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

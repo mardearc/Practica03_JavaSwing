@@ -4,7 +4,7 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -31,7 +31,7 @@ public class FrmPrincipal extends JFrame {
     private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, menuItemGuardar, menuItemVaciar, menuItemTest;
 
     // Lista de Cuentas
-    private Lista<Cuenta> cuentas = new Lista<>();
+    public static Lista<Cuenta> cuentas = new Lista<>();
 
     // Controlador
     private CtrlCuenta ctrlCuenta;
@@ -58,7 +58,7 @@ public class FrmPrincipal extends JFrame {
 
         // Inicialización de Paneles
         panLista = new PanLista();
-        panInsertar = new PanInsertar(cuentas);
+        panInsertar = new PanInsertar(cuentas, panLista);
         
         panPrincipal.add(panLista, "panLista");
         panPrincipal.add(panInsertar, "panInsertar");
@@ -121,11 +121,17 @@ public class FrmPrincipal extends JFrame {
         // Listener para "Guardar"
         menuItemGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ctrlCuenta.escribirFichero(cuentas); // Leer el fichero
+            	try {
+            		ctrlCuenta.escribirFichero(cuentas); // Leer el fichero
+            		JOptionPane.showMessageDialog(rootPane, "Archivo guardado");
+            	}catch(Exception ex) {
+            		JOptionPane.showMessageDialog(rootPane, "Error guardando archivo");
+            	}
+                
             }
         });
         
-     // Listener para "Guardar"
+     // Listener para "Vaciar"
         menuItemVaciar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	cuentas = new Lista<Cuenta>(); // Leer el fichero
