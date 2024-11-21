@@ -19,13 +19,14 @@ public class CtrlCuenta {
 		return mi_controlador;
 	}
 	
+	
 	public static boolean verificarFechaFutura(String fechaStr) {
         // Convertir la fecha del string a GregorianCalendar gilipollas
         GregorianCalendar fecha = convertirAFecha(fechaStr);
 
         boolean esFutura = esFechaFutura(fecha);
-
-        return esFutura;
+        
+        return esFutura;  // Hay que pillarlo en el Panel Insertar
     }
 	
 	public static boolean esFechaFutura(GregorianCalendar fecha) {
