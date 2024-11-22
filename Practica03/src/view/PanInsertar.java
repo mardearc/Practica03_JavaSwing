@@ -185,9 +185,13 @@ public class PanInsertar extends JPanel {
 			String titular = txtTitular.getText();
 			double saldoMinimo = Double.parseDouble(txtSaldoMinimo.getText());
 			double saldo = Double.parseDouble(txtSaldo.getText());
-			String[] fechaParts = txtFecha.getText().split("-");
-			GregorianCalendar fechaApertura = new GregorianCalendar(Integer.parseInt(fechaParts[0]),
-					Integer.parseInt(fechaParts[1]) - 1, Integer.parseInt(fechaParts[2]));
+			//Controlar que la fecha no sea futura
+			GregorianCalendar fechaApertura = null;
+			if(!CtrlCuenta.verificarFechaFutura(txtFecha.getText())){
+				fechaApertura = CtrlCuenta.convertirAFecha(txtFecha.getText());
+			}else {
+				throw new IllegalArgumentException("La fecha no puede ser futura");
+			}
 
 			if (rbtnCorriente.isSelected()) {
 				double comision = Double.parseDouble(txtComision.getText());
