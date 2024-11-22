@@ -11,6 +11,9 @@ import javax.swing.border.EmptyBorder;
 import controller.CtrlCuenta;
 import controller.Lista;
 import model.Cuenta;
+import model.CuentaAhorro;
+import model.NumeroNoValidoException;
+import model.SaldoNoValidoException;
 
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
@@ -151,6 +154,23 @@ public class FrmPrincipal extends JFrame {
             	cuentas = new Lista<Cuenta>(); // Leer el fichero
                 panLista.actualizarLista(cuentas); // Actualizar el panel con los nuevos datos
             }
+        });
+        
+        //Listener para "Test"
+        menuItemTest.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+					CuentaAhorro ca1 = new CuentaAhorro(601, "ca1", 2000, 4000, CtrlCuenta.convertirAFecha("2020-12-12"), 2, 2);
+					CuentaAhorro ca2 = new CuentaAhorro(602, "ca2", 2000, 4000, CtrlCuenta.convertirAFecha("2020-12-12"), 2, 2);
+
+				} catch (SaldoNoValidoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NumeroNoValidoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        	}
         });
     }
 }
