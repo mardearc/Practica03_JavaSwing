@@ -36,14 +36,15 @@ public class PanInsertar extends JPanel {
 	//Conbtrolador
 	CtrlCuenta ctrlCuenta = CtrlCuenta.GetControlador();
 	
-	//Panel Lista
+	//Panel Lista y Cuenta
 	PanLista panLista;
+	PanCuenta panCuenta;
 	
-	public PanInsertar(Lista<Cuenta> listaCuentas, PanLista panelLista) {
+	public PanInsertar(Lista<Cuenta> listaCuentas, PanLista panelLista, PanCuenta panelCuenta) {
 		
 		cuentas = listaCuentas;
 		panLista = panelLista;
-		
+		panCuenta = panelCuenta;
 		setLayout(null);
 
 		addComponents();
@@ -197,8 +198,9 @@ public class PanInsertar extends JPanel {
 						tipoComision));
 				JOptionPane.showMessageDialog(this, "Cuenta insertada correctamente.");
 				
-				//Actualizar la lista del panelLista
+				//Actualizar la lista del panelLista y panelCuenta
 				panLista.actualizarLista(FrmPrincipal.cuentas);
+				panCuenta.actualizarLista(FrmPrincipal.cuentas);
 				limpiarCampos();
 			} else if (rbtnAhorro.isSelected()) {
 				double interesAnual = Double.parseDouble(txtInteresAnual.getText());
@@ -211,6 +213,7 @@ public class PanInsertar extends JPanel {
 				
 				//Actualizar la lista del panelLista
 				panLista.actualizarLista(FrmPrincipal.cuentas);
+				panCuenta.actualizarLista(FrmPrincipal.cuentas);
 				limpiarCampos();
 			} else {
 				JOptionPane.showMessageDialog(this, "Debe elegir un tipo de cuenta.");

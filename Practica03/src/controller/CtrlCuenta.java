@@ -21,7 +21,7 @@ public class CtrlCuenta {
 	
 	
 	public static boolean verificarFechaFutura(String fechaStr) {
-        // Convertir la fecha del string a GregorianCalendar gilipollas
+        // Convertir la fecha del string a GregorianCalendar
         GregorianCalendar fecha = convertirAFecha(fechaStr);
 
         boolean esFutura = esFechaFutura(fecha);
@@ -30,7 +30,7 @@ public class CtrlCuenta {
     }
 	
 	public static boolean esFechaFutura(GregorianCalendar fecha) {
-		// Comprobar fecha futura puto niño
+		// Comprobar fecha futura
         GregorianCalendar fechaActual = new GregorianCalendar();
         
         return fecha.after(fechaActual);

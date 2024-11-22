@@ -24,11 +24,12 @@ public class FrmPrincipal extends JFrame {
     private JPanel panPrincipal;
     private PanLista panLista;
     private PanInsertar panInsertar;
+    private PanCuenta panCuenta;
     
     // Menú
     private JMenuBar menuBar;
     private JMenu mnuOpciones;
-    private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, menuItemGuardar, menuItemVaciar, menuItemTest;
+    private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, mnuItemCuenta, menuItemGuardar, menuItemVaciar, menuItemTest;
 
     // Lista de Cuentas
     public static Lista<Cuenta> cuentas = new Lista<>();
@@ -58,10 +59,12 @@ public class FrmPrincipal extends JFrame {
 
         // Inicialización de Paneles
         panLista = new PanLista();
-        panInsertar = new PanInsertar(cuentas, panLista);
+        panCuenta = new PanCuenta();
+        panInsertar = new PanInsertar(cuentas, panLista, panCuenta);
         
         panPrincipal.add(panLista, "panLista");
         panPrincipal.add(panInsertar, "panInsertar");
+        panPrincipal.add(panCuenta, "panCuenta");
         // Configuración del Menú
         addMenu();
         addListeners();
@@ -76,6 +79,9 @@ public class FrmPrincipal extends JFrame {
         
         menuItemInsertar = new JMenuItem("Insertar");
         menuBar.add(menuItemInsertar);
+        
+        mnuItemCuenta = new JMenuItem("Ver Cuenta");
+        menuBar.add(mnuItemCuenta);
 
         mnuOpciones = new JMenu("Opciones");
         menuBar.add(mnuOpciones);
@@ -110,11 +116,19 @@ public class FrmPrincipal extends JFrame {
             }
         });
     	
+     // Listener para "Ver Cuenta"
+        mnuItemCuenta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout) (panPrincipal.getLayout());
+                cl.show(panPrincipal, "panCuenta");
+            }
+        });
         // Listener para "Cargar"
         menuItemCargar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cuentas = ctrlCuenta.leerFichero(); // Leer el fichero
                 panLista.actualizarLista(cuentas); // Actualizar el panel con los nuevos datos
+                panCuenta.actualizarLista(cuentas); // Actualizar el panel con los nuevos datos
             }
         });
         
