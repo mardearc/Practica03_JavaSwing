@@ -34,7 +34,7 @@ public class FrmPrincipal extends JFrame {
     // Menú
     private JMenuBar menuBar;
     private JMenu mnuOpciones;
-    private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, mnuItemCuenta, menuItemGuardar, menuItemVaciar, menuItemTest;
+    private JMenuItem menuItemCargar, menuItemVerLista, menuItemInsertar, mnuItemCuenta, menuItemGuardar, menuItemVaciar, menuItemTest, mnuItemOrdenarLista, mnuItemOrdenarCollection;
 
     // Lista de Cuentas
     public static Lista<Cuenta> cuentas = new Lista<>();
@@ -102,6 +102,12 @@ public class FrmPrincipal extends JFrame {
         
         menuItemTest = new JMenuItem("Test");
         mnuOpciones.add(menuItemTest);
+        
+        mnuItemOrdenarLista = new JMenuItem("Ordenar Lista");
+        mnuOpciones.add(mnuItemOrdenarLista);
+        
+        mnuItemOrdenarCollection = new JMenuItem("Ordenar Collection");
+        mnuOpciones.add(mnuItemOrdenarCollection);
     }
 
     private void addListeners() {
@@ -181,6 +187,15 @@ public class FrmPrincipal extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+        	}
+        });
+        
+        //Listener para ordenar por Lista<Cuenta>
+        mnuItemOrdenarLista.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cuentas = CtrlCuenta.generarCuentas(1000);
+        		panLista.actualizarLista(cuentas);
+        		panCuenta.actualizarLista(cuentas);
         	}
         });
     }
