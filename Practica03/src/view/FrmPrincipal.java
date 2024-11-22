@@ -12,11 +12,13 @@ import controller.CtrlCuenta;
 import controller.Lista;
 import model.Cuenta;
 import model.CuentaAhorro;
+import model.CuentaCorriente;
 import model.NumeroNoValidoException;
 import model.SaldoNoValidoException;
 
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 
 public class FrmPrincipal extends JFrame {
@@ -160,9 +162,18 @@ public class FrmPrincipal extends JFrame {
         menuItemTest.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
-					CuentaAhorro ca1 = new CuentaAhorro(601, "ca1", 2000, 4000, CtrlCuenta.convertirAFecha("2020-12-12"), 2, 2);
-					CuentaAhorro ca2 = new CuentaAhorro(602, "ca2", 2000, 4000, CtrlCuenta.convertirAFecha("2020-12-12"), 2, 2);
-
+					CuentaAhorro ca1 = new CuentaAhorro(601, "ca1", 2000, 4000, new GregorianCalendar(), 2, 2);
+					CuentaAhorro ca2 = new CuentaAhorro(602, "ca2", 2000, 4000, new GregorianCalendar(), 2, 2);
+					CuentaCorriente cc1 = new CuentaCorriente(603, "cc1", 2000, 4000, new GregorianCalendar(), 2, "mensual");
+					CuentaCorriente cc2 = new CuentaCorriente(604, "cc2", 2000, 4000, new GregorianCalendar(), 2, "mensual");
+					cuentas = new Lista<Cuenta>();
+					cuentas.insertarNodo(cc2);
+					cuentas.insertarNodo(cc1);
+					cuentas.insertarNodo(ca2);
+					cuentas.insertarNodo(ca1);
+					panLista.actualizarLista(cuentas);
+					panCuenta.actualizarLista(cuentas);
+					
 				} catch (SaldoNoValidoException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
