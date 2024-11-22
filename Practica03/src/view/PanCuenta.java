@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import controller.Lista;
 import controller.Node;
@@ -12,170 +13,172 @@ import model.CuentaCorriente;
 
 public class PanCuenta extends JPanel {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private JLabel lblTipoCuenta, lblNumero, lblTitular, lblSaldoMinimo, lblSaldo, lblFecha, lblInfo, lblExtra1, lblExtra2;
-    private JButton btnAnterior, btnSiguiente;
-    private Lista<Cuenta> listaCuentas;
-    private Node<Cuenta> nodoActual;
-    private int indiceActual, totalCuentas;
+	private JLabel lblTipoCuenta, lblNumero, lblSaldoMinimo, lblSaldo, lblFecha, lblInfo, lblExtra1,
+			lblExtra2;
+	private JButton btnAnterior, btnSiguiente;
+	private Lista<Cuenta> listaCuentas;
+	private Node<Cuenta> nodoActual;
+	private int indiceActual, totalCuentas;
 
-    public PanCuenta() {
-        this.listaCuentas = FrmPrincipal.cuentas;
-        this.nodoActual = FrmPrincipal.cuentas.getInicio();
-        this.indiceActual = 1;
-        this.totalCuentas = calcularTotalCuentas();
+	public PanCuenta() {
+		this.listaCuentas = FrmPrincipal.cuentas;
+		this.nodoActual = FrmPrincipal.cuentas.getInicio();
+		this.indiceActual = 1;
+		this.totalCuentas = calcularTotalCuentas();
 
-        setLayout(null);
-        addComponents();
-        addListeners();
-        mostrarCuenta();
-    }
+		setLayout(null);
+		addComponents();
+		addListeners();
+		mostrarCuenta();
+	}
 
-    private void addComponents() {
-        lblTipoCuenta = new JLabel("Tipo de Cuenta:");
-        lblTipoCuenta.setBounds(10, 10, 300, 25);
-        add(lblTipoCuenta);
+	private void addComponents() {
+		lblTipoCuenta = new JLabel("Tipo de Cuenta:");
+		lblTipoCuenta.setBounds(10, 10, 300, 25);
+		add(lblTipoCuenta);
 
-        lblNumero = new JLabel("Número:");
-        lblNumero.setBounds(10, 40, 300, 25);
-        add(lblNumero);
+		lblNumero = new JLabel("Número:");
+		lblNumero.setBounds(10, 40, 300, 25);
+		add(lblNumero);
 
-        lblSaldoMinimo = new JLabel("Saldo Mínimo:");
-        lblSaldoMinimo.setBounds(10, 63, 300, 25);
-        add(lblSaldoMinimo);
+		lblSaldoMinimo = new JLabel("Saldo Mínimo:");
+		lblSaldoMinimo.setBounds(10, 63, 300, 25);
+		add(lblSaldoMinimo);
 
-        lblSaldo = new JLabel("Saldo:");
-        lblSaldo.setBounds(10, 89, 300, 25);
-        add(lblSaldo);
+		lblSaldo = new JLabel("Saldo:");
+		lblSaldo.setBounds(10, 89, 300, 25);
+		add(lblSaldo);
 
-        lblFecha = new JLabel("Fecha de Apertura:");
-        lblFecha.setBounds(10, 111, 300, 25);
-        add(lblFecha);
+		lblFecha = new JLabel("Fecha de Apertura:");
+		lblFecha.setBounds(10, 111, 300, 25);
+		add(lblFecha);
 
-        lblExtra1 = new JLabel(); // Campo adicional según tipo de cuenta
-        lblExtra1.setBounds(248, 45, 202, 25);
-        add(lblExtra1);
+		lblExtra1 = new JLabel(); // Campo adicional según tipo de cuenta
+		lblExtra1.setBounds(248, 45, 202, 25);
+		add(lblExtra1);
 
-        lblExtra2 = new JLabel(); // Campo adicional según tipo de cuenta
-        lblExtra2.setBounds(248, 75, 202, 25);
-        add(lblExtra2);
+		lblExtra2 = new JLabel(); // Campo adicional según tipo de cuenta
+		lblExtra2.setBounds(248, 75, 202, 25);
+		add(lblExtra2);
 
-        lblInfo = new JLabel("1 de " + totalCuentas);
-        lblInfo.setBounds(172, 201, 300, 25);
-        add(lblInfo);
+		lblInfo = new JLabel("1 de " + totalCuentas);
+		lblInfo.setBounds(172, 201, 300, 25);
+		add(lblInfo);
 
-        btnAnterior = new JButton("Anterior");
-        btnAnterior.setBounds(76, 166, 100, 25);
-        add(btnAnterior);
+		btnAnterior = new JButton("Anterior");
+		btnAnterior.setBounds(76, 166, 100, 25);
+		add(btnAnterior);
 
-        btnSiguiente = new JButton("Siguiente");
-        btnSiguiente.setBounds(210, 166, 100, 25);
-        add(btnSiguiente);
-    }
+		btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.setBounds(210, 166, 100, 25);
+		add(btnSiguiente);
+	}
 
-    private void addListeners() {
-        btnAnterior.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                moverAnterior();
-            }
-        });
+	private void addListeners() {
+		btnAnterior.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				moverAnterior();
+			}
+		});
 
-        btnSiguiente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                moverSiguiente();
-            }
-        });
-    }
+		btnSiguiente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				moverSiguiente();
+			}
+		});
+	}
 
-    private void mostrarCuenta() {
-        if (nodoActual == null) {
-            limpiarCampos();
-            lblInfo.setText("0 de 0");
-            return;
-        }
+	private void mostrarCuenta() {
+		if (nodoActual == null) {
+			limpiarCampos();
+			lblInfo.setText("0 de 0");
+			return;
+		}
 
-        Cuenta cuenta = nodoActual.getPrincipal();
-        lblNumero.setText("Número: " + cuenta.getNumero());
-        lblSaldoMinimo.setText("Saldo Mínimo: " + cuenta.getSaldoMinimo());
-        lblSaldo.setText("Saldo: " + cuenta.getSaldo());
-        lblFecha.setText("Fecha de Apertura: " + cuenta.getFechaApertura().getTime());
+		Cuenta cuenta = nodoActual.getPrincipal();
+		lblNumero.setText("Número: " + cuenta.getNumero());
+		lblSaldoMinimo.setText("Saldo Mínimo: " + cuenta.getSaldoMinimo());
+		lblSaldo.setText("Saldo: " + cuenta.getSaldo());
+		lblFecha.setText("Fecha de Apertura: " + cuenta.getFechaApertura().getTime());
 
-        if (cuenta instanceof CuentaCorriente) {
-            lblTipoCuenta.setText("Tipo de Cuenta: Corriente");
-            CuentaCorriente corriente = (CuentaCorriente) cuenta;
-            lblExtra1.setText("Comisión: " + corriente.getComision());
-            lblExtra2.setText("Tipo de Comisión: " + corriente.getTipoComision());
-        } else if (cuenta instanceof CuentaAhorro) {
-            lblTipoCuenta.setText("Tipo de Cuenta: Ahorro");
-            CuentaAhorro ahorro = (CuentaAhorro) cuenta;
-            lblExtra1.setText("Interés Anual: " + ahorro.getInteresAnual());
-            lblExtra2.setText("Rentabilidad: " + ahorro.getRentabilidad());
-        } else {
-            lblTipoCuenta.setText("Tipo de Cuenta: Desconocido");
-            lblExtra1.setText("");
-            lblExtra2.setText("");
-        }
+		if (cuenta instanceof CuentaCorriente) {
+			lblTipoCuenta.setText("Tipo de Cuenta: Corriente");
+			CuentaCorriente corriente = (CuentaCorriente) cuenta;
+			lblExtra1.setText("Comisión: " + corriente.getComision());
+			lblExtra2.setText("Tipo de Comisión: " + corriente.getTipoComision());
+		} else if (cuenta instanceof CuentaAhorro) {
+			lblTipoCuenta.setText("Tipo de Cuenta: Ahorro");
+			CuentaAhorro ahorro = (CuentaAhorro) cuenta;
+			lblExtra1.setText("Interés Anual: " + ahorro.getInteresAnual());
+			lblExtra2.setText("Rentabilidad: " + ahorro.getRentabilidad());
+		} else {
+			lblTipoCuenta.setText("Tipo de Cuenta: Desconocido");
+			lblExtra1.setText("");
+			lblExtra2.setText("");
+		}
 
-        lblInfo.setText(indiceActual + " de " + totalCuentas);
-    }
+		lblInfo.setText(indiceActual + " de " + totalCuentas);
+	}
 
-    private void moverSiguiente() {
-        if (nodoActual != null && nodoActual.getSiguiente() != null) {
-            nodoActual = nodoActual.getSiguiente();
-            indiceActual++;
-            mostrarCuenta();
-        }
-    }
+	private void moverSiguiente() {
+		if (nodoActual != null && nodoActual.getSiguiente() != null) {
+			nodoActual = nodoActual.getSiguiente();
+			indiceActual++;
+			mostrarCuenta();
+		}
+	}
 
-    private void moverAnterior() {
-        if (nodoActual != null && indiceActual > 1) {
-            nodoActual = obtenerNodoAnterior(nodoActual);
-            indiceActual--;
-            mostrarCuenta();
-        }
-    }
+	private void moverAnterior() {
+		if (nodoActual != null && indiceActual > 1) {
+			nodoActual = obtenerNodoAnterior(nodoActual);
+			indiceActual--;
+			mostrarCuenta();
+		}
+	}
 
-    private Node<Cuenta> obtenerNodoAnterior(Node<Cuenta> nodo) {
-        Node<Cuenta> actual = listaCuentas.getInicio();
-        Node<Cuenta> anterior = null;
+	private Node<Cuenta> obtenerNodoAnterior(Node<Cuenta> nodo) {
+		Node<Cuenta> actual = listaCuentas.getInicio();
+		Node<Cuenta> anterior = null;
 
-        while (actual != null && actual != nodo) {
-            anterior = actual;
-            actual = actual.getSiguiente();
-        }
+		while (actual != null && actual != nodo) {
+			anterior = actual;
+			actual = actual.getSiguiente();
+		}
 
-        return anterior;
-    }
+		return anterior;
+	}
 
-    private int calcularTotalCuentas() {
-        int total = 0;
-        Node<Cuenta> actual = listaCuentas.getInicio();
-        while (actual != null) {
-            total++;
-            actual = actual.getSiguiente();
-        }
-        return total;
-    }
+	private int calcularTotalCuentas() {
+		int total = 0;
+		Node<Cuenta> actual = listaCuentas.getInicio();
+		while (actual != null) {
+			total++;
+			actual = actual.getSiguiente();
+		}
+		return total;
+	}
 
-    private void limpiarCampos() {
-        lblTipoCuenta.setText("Tipo de Cuenta:");
-        lblNumero.setText("Número:");
-        lblSaldoMinimo.setText("Saldo Mínimo:");
-        lblSaldo.setText("Saldo:");
-        lblFecha.setText("Fecha de Apertura:");
-        lblExtra1.setText("");
-        lblExtra2.setText("");
-    }
+	private void limpiarCampos() {
+		lblTipoCuenta.setText("Tipo de Cuenta:");
+		lblNumero.setText("Número:");
+		lblSaldoMinimo.setText("Saldo Mínimo:");
+		lblSaldo.setText("Saldo:");
+		lblFecha.setText("Fecha de Apertura:");
+		lblExtra1.setText("");
+		lblExtra2.setText("");
+	}
 
-    public void actualizarLista(Lista<Cuenta> cuentas) {
-        this.listaCuentas = cuentas; // Actualiza la lista de cuentas
-        this.nodoActual = cuentas.getInicio(); // Apunta al inicio de la lista
-        this.indiceActual = 1; // Reinicia el índice actual
-        this.totalCuentas = calcularTotalCuentas(); // Recalcula el total de cuentas
-        mostrarCuenta(); // Muestra la cuenta actualizada
-    }
+	public void actualizarLista(Lista<Cuenta> cuentas) {
+		this.listaCuentas = cuentas; // Actualiza la lista de cuentas
+		this.nodoActual = cuentas.getInicio(); // Apunta al inicio de la lista
+		this.indiceActual = 1; // Reinicia el índice actual
+		this.totalCuentas = calcularTotalCuentas(); // Recalcula el total de cuentas
+		mostrarCuenta(); // Muestra la cuenta actualizada
+	}
 
+	
 }

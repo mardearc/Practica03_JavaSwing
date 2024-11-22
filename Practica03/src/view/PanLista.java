@@ -8,6 +8,8 @@ import controller.Lista;
 import controller.Node;
 import model.Cuenta;
 
+import java.util.List;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -55,4 +57,8 @@ public class PanLista extends JPanel {
             actual = actual.getSiguiente();
         }
     }
+
+	public void actualizarListaCollection(List<Cuenta> listaCuentas) {
+			modelo.addAll(listaCuentas);
+	}
 }

@@ -18,7 +18,10 @@ import model.SaldoNoValidoException;
 
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class FrmPrincipal extends JFrame {
@@ -193,9 +196,20 @@ public class FrmPrincipal extends JFrame {
         //Listener para ordenar por Lista<Cuenta>
         mnuItemOrdenarLista.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		cuentas = CtrlCuenta.generarCuentas(1000);
+        		cuentas = CtrlCuenta.generarCuentas(10000);
         		panLista.actualizarLista(cuentas);
         		panCuenta.actualizarLista(cuentas);
+        	}
+        });
+        
+      //Listener para ordenar por Collection
+        mnuItemOrdenarCollection.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		List<Cuenta> listaCuentas = new ArrayList<>();
+        		cuentas = CtrlCuenta.generarCuentas(10000);
+        		listaCuentas = cuentas.obtenerElementos();
+        		listaCuentas.sort(Comparator.comparingInt(Cuenta::getNumero));
+        		panLista.actualizarListaCollection(listaCuentas);
         	}
         });
     }
