@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.List;
 
 import controller.Lista;
@@ -10,17 +11,19 @@ import controller.Node;
 import model.Cuenta;
 import model.CuentaAhorro;
 import model.CuentaCorriente;
+import model.SaldoNoValidoException;
 
 public class PanCuenta extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel lblTipoCuenta, lblNumero, lblSaldoMinimo, lblSaldo, lblFecha, lblInfo, lblExtra1,
-			lblExtra2;
-	private JButton btnAnterior, btnSiguiente;
+	private JLabel lblTipoCuenta, lblNumero, lblSaldoMinimo, lblSaldo, lblFecha, lblInfo, lblExtra1, lblExtra2;
+	private JButton btnAnterior, btnSiguiente, btnCalcular;
 	private Lista<Cuenta> listaCuentas;
 	private Node<Cuenta> nodoActual;
 	private int indiceActual, totalCuentas;
+
+	private Cuenta cuentaActual;
 
 	public PanCuenta() {
 		this.listaCuentas = FrmPrincipal.cuentas;
@@ -64,16 +67,20 @@ public class PanCuenta extends JPanel {
 		add(lblExtra2);
 
 		lblInfo = new JLabel("1 de " + totalCuentas);
-		lblInfo.setBounds(172, 201, 300, 25);
+		lblInfo.setBounds(172, 201, 100, 25);
 		add(lblInfo);
 
 		btnAnterior = new JButton("Anterior");
-		btnAnterior.setBounds(76, 166, 100, 25);
+		btnAnterior.setBounds(58, 166, 100, 25);
 		add(btnAnterior);
 
 		btnSiguiente = new JButton("Siguiente");
-		btnSiguiente.setBounds(210, 166, 100, 25);
+		btnSiguiente.setBounds(172, 166, 100, 25);
 		add(btnSiguiente);
+
+		btnCalcular = new JButton("Calcular");
+		btnCalcular.setBounds(290, 166, 100, 25);
+		add(btnCalcular);
 	}
 
 	private void addListeners() {
@@ -88,6 +95,49 @@ public class PanCuenta extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moverSiguiente();
+			}
+		});
+
+		btnCalcular.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cuentaActual instanceof CuentaAhorro) {
+					// Es una CuentaAhorro
+					CuentaAhorro cuentaAhorro = (CuentaAhorro) cuentaActual;
+					double nuevoSaldo = cuentaAhorro.getSaldo() * (1 + cuentaAhorro.getInteresAnual() / 100);
+
+					// Verificar que el nuevo saldo no es menor al saldo mínimo
+					if (nuevoSaldo >= cuentaAhorro.getSaldoMinimo()) {
+						try {
+							cuentaAhorro.setSaldo(nuevoSaldo);
+							lblSaldo.setText(cuentaAhorro.getSaldo() + "");
+							JOptionPane.showMessageDialog(null, "Saldo actualizado correctamente.");
+						} catch (SaldoNoValidoException e1) {
+							JOptionPane.showMessageDialog(null, "El saldo no puede ser inferior al saldo mínimo.",
+									"Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				} else if (cuentaActual instanceof CuentaCorriente) {
+					// Es una CuentaCorriente
+					CuentaCorriente cuentaCorriente = (CuentaCorriente) cuentaActual;
+					double nuevoSaldo = cuentaCorriente.getSaldo() - (cuentaCorriente.getSaldo() * (cuentaCorriente.getComision() / 100.0));
+
+					// Verificar que el nuevo saldo no es menor al saldo mínimo
+					if (nuevoSaldo >= cuentaCorriente.getSaldoMinimo()) {
+						try {
+							cuentaCorriente.setSaldo(nuevoSaldo);
+							lblSaldo.setText(cuentaCorriente.getSaldo() + "");
+							JOptionPane.showMessageDialog(null, "Saldo actualizado correctamente.");
+						} catch (SaldoNoValidoException e1) {
+							JOptionPane.showMessageDialog(null, "El saldo no puede ser inferior al saldo mínimo.",
+									"Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				} else {
+					// Si la cuenta no es de un tipo válido
+					JOptionPane.showMessageDialog(null, "Tipo de cuenta no reconocido.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}
@@ -110,11 +160,15 @@ public class PanCuenta extends JPanel {
 			CuentaCorriente corriente = (CuentaCorriente) cuenta;
 			lblExtra1.setText("Comisión: " + corriente.getComision());
 			lblExtra2.setText("Tipo de Comisión: " + corriente.getTipoComision());
+			actualizarCalcular(corriente, btnCalcular);
+			cuentaActual = corriente;
 		} else if (cuenta instanceof CuentaAhorro) {
 			lblTipoCuenta.setText("Tipo de Cuenta: Ahorro");
 			CuentaAhorro ahorro = (CuentaAhorro) cuenta;
 			lblExtra1.setText("Interés Anual: " + ahorro.getInteresAnual());
 			lblExtra2.setText("Rentabilidad: " + ahorro.getRentabilidad());
+			actualizarCalcular(ahorro, btnCalcular);
+			cuentaActual = ahorro;
 		} else {
 			lblTipoCuenta.setText("Tipo de Cuenta: Desconocido");
 			lblExtra1.setText("");
@@ -180,5 +234,42 @@ public class PanCuenta extends JPanel {
 		mostrarCuenta(); // Muestra la cuenta actualizada
 	}
 
-	
+	public boolean cumpleMes(CuentaCorriente c) {
+	    Calendar fechaApertura = c.getFechaApertura();
+	    Calendar actual = Calendar.getInstance();
+
+	    // Comprobar si ha pasado al menos un mes
+	    actual.add(Calendar.MONTH, -1); // Retrocede un mes
+	    return !fechaApertura.after(actual); // Si la fecha de apertura es igual o anterior, cumple
+	}
+
+	public boolean cumpleAnio(CuentaAhorro c) {
+	    Calendar fechaApertura = c.getFechaApertura();
+	    Calendar actual = Calendar.getInstance();
+
+	    // Comprobar si ha pasado al menos un año
+	    actual.add(Calendar.YEAR, -1); // Retrocede un año
+	    return !fechaApertura.after(actual); // Si la fecha de apertura es igual o anterior, cumple
+	}
+
+	public void actualizarCalcular(Cuenta cuenta, JButton botonCalcular) {
+		if (cuenta instanceof CuentaAhorro) {
+			// Verificar si es una CuentaAhorro y cumple el año
+			if (cumpleAnio((CuentaAhorro) cuenta)) {
+				botonCalcular.setEnabled(true);
+			} else {
+				botonCalcular.setEnabled(false);
+			}
+		} else if (cuenta instanceof CuentaCorriente) {
+			// Verificar si es una CuentaCorriente y cumple el mes
+			if (cumpleMes((CuentaCorriente) cuenta)) {
+				botonCalcular.setEnabled(true);
+			} else {
+				botonCalcular.setEnabled(false);
+			}
+		} else {
+			// En caso de que no sea una cuenta válida, deshabilitar el botón
+			botonCalcular.setEnabled(false);
+		}
+	}
 }

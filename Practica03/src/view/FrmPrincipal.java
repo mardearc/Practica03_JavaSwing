@@ -8,8 +8,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+
 import controller.CtrlCuenta;
 import controller.Lista;
+import controller.Node;
 import model.Cuenta;
 import model.CuentaAhorro;
 import model.CuentaCorriente;
@@ -196,9 +198,15 @@ public class FrmPrincipal extends JFrame {
         //Listener para ordenar por Lista<Cuenta>
         mnuItemOrdenarLista.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		cuentas = CtrlCuenta.generarCuentas(10000);
-        		panLista.actualizarLista(cuentas);
-        		panCuenta.actualizarLista(cuentas);
+        		 // Generar las cuentas
+                cuentas = CtrlCuenta.generarCuentas(10000);
+
+                // Ordenar la lista
+                ordenarLista(cuentas);
+
+                // Actualizar los paneles con la lista ordenada
+                panLista.actualizarLista(cuentas);
+                panCuenta.actualizarLista(cuentas);
         	}
         });
         
@@ -212,5 +220,33 @@ public class FrmPrincipal extends JFrame {
         		panLista.actualizarListaCollection(listaCuentas);
         	}
         });
+    }
+    
+    private void ordenarLista(Lista<Cuenta> lista) {
+        if (lista.getInicio() == null || lista.getInicio().getSiguiente() == null) {
+            // La lista ya está ordenada (vacía o con un solo elemento)
+            return;
+        }
+
+        boolean huboIntercambio;
+        do {
+            Node<Cuenta> actual = lista.getInicio();
+            Node<Cuenta> siguiente = actual.getSiguiente();
+            huboIntercambio = false;
+
+            while (siguiente != null) {
+                // Comparar los números de las cuentas
+                if (actual.getPrincipal().getNumero() > siguiente.getPrincipal().getNumero()) {
+                    // Intercambiar los valores de los nodos
+                    Cuenta temp = actual.getPrincipal();
+                    actual.setPrincipal(siguiente.getPrincipal());
+                    siguiente.setPrincipal(temp);
+                    huboIntercambio = true;
+                }
+                // Avanzar en la lista
+                actual = siguiente;
+                siguiente = siguiente.getSiguiente();
+            }
+        } while (huboIntercambio);
     }
 }
