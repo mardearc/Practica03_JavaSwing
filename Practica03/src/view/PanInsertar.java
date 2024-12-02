@@ -185,6 +185,10 @@ public class PanInsertar extends JPanel {
 			String titular = txtTitular.getText();
 			double saldoMinimo = Double.parseDouble(txtSaldoMinimo.getText());
 			double saldo = Double.parseDouble(txtSaldo.getText());
+			if(saldo < 0) {
+				throw new IllegalArgumentException("El saldo no puede ser negativo");
+			}
+			
 			//Controlar que la fecha no sea futura
 			GregorianCalendar fechaApertura = null;
 			if(!CtrlCuenta.verificarFechaFutura(txtFecha.getText())){

@@ -110,7 +110,7 @@ public class PanCuenta extends JPanel {
 					if (nuevoSaldo >= cuentaAhorro.getSaldoMinimo()) {
 						try {
 							cuentaAhorro.setSaldo(nuevoSaldo);
-							lblSaldo.setText(cuentaAhorro.getSaldo() + "");
+							lblSaldo.setText("Saldo: " + cuentaAhorro.getSaldo() + "");
 							JOptionPane.showMessageDialog(null, "Saldo actualizado correctamente.");
 						} catch (SaldoNoValidoException e1) {
 							JOptionPane.showMessageDialog(null, "El saldo no puede ser inferior al saldo mínimo.",
@@ -126,7 +126,7 @@ public class PanCuenta extends JPanel {
 					if (nuevoSaldo >= cuentaCorriente.getSaldoMinimo()) {
 						try {
 							cuentaCorriente.setSaldo(nuevoSaldo);
-							lblSaldo.setText(cuentaCorriente.getSaldo() + "");
+							lblSaldo.setText("Saldo: " + cuentaCorriente.getSaldo() + "");
 							JOptionPane.showMessageDialog(null, "Saldo actualizado correctamente.");
 						} catch (SaldoNoValidoException e1) {
 							JOptionPane.showMessageDialog(null, "El saldo no puede ser inferior al saldo mínimo.",
